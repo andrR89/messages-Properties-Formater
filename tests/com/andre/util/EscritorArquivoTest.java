@@ -16,6 +16,9 @@ public class EscritorArquivoTest {
 
 	final static String DIR_ARQUIVO = "/home/andre/Documentos/teste.txt";
 
+	/**
+	 * 
+	 */
 	@After
 	public void limparDiretorios() {
 		File file = new File(DIR_ARQUIVO);
