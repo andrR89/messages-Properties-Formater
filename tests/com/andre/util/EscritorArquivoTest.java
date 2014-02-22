@@ -7,11 +7,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-<<<<<<< HEAD
 import com.andre.exceptions.CrashException;
 
-=======
->>>>>>> 27179259b9cfb9cf2e5975165ef34c4e27eda0e8
 /**
  * Teste na Classe Escritor Arquivo.
  * 
@@ -38,11 +35,7 @@ public class EscritorArquivoTest {
 	 * 
 	 * @throws IOException
 	 */
-<<<<<<< HEAD
 	@Test(expected = CrashException.class)
-=======
-	@Test(expected = IllegalArgumentException.class)
->>>>>>> 27179259b9cfb9cf2e5975165ef34c4e27eda0e8
 	public void testConstrutorStringNull() throws IOException {
 		final EscritorArquivo error = new EscritorArquivo(null);
 		error.getArquivo();
