@@ -12,8 +12,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+<<<<<<< HEAD
 import com.andre.exceptions.CrashException;
 
+=======
+>>>>>>> 27179259b9cfb9cf2e5975165ef34c4e27eda0e8
 public class LeitorArquivoTest {
 
 	/** Diretorio Dump pra execução dos teste. */
@@ -70,7 +73,11 @@ public class LeitorArquivoTest {
 	 * 
 	 * @throws FileNotFoundException
 	 */
+<<<<<<< HEAD
 	@Test(expected = CrashException.class)
+=======
+	@Test(expected = IllegalArgumentException.class)
+>>>>>>> 27179259b9cfb9cf2e5975165ef34c4e27eda0e8
 	public void testConstruorNull() throws FileNotFoundException {
 		LeitorArquivo leitor = new LeitorArquivo(null);
 		Assert.assertTrue(leitor.getArquivo() != null);
