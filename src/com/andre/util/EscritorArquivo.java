@@ -2,7 +2,6 @@ package com.andre.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -22,8 +21,6 @@ public class EscritorArquivo {
 	/** OutputStreamWriter. */
 	private OutputStreamWriter buffer;
 
-	/** FileWriter */
-	private FileWriter fileWriter;
 
 	/**
 	 * Construtor.
