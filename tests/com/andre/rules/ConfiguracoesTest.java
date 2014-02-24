@@ -70,6 +70,16 @@ public class ConfiguracoesTest {
 		final String palavra = "jsf";
 		Assert.assertTrue(conf.isPalavraExcecao(palavra));
 	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPalavraExcecaoCaracteresEspeciaisTRUE()
+	{
+		final String palavra = "jsf!";
+		Assert.assertTrue(conf.isPalavraExcecao(palavra));
+	}
 
 	/**
 	 * Verifica se a propertie é execcao;
@@ -95,6 +105,56 @@ public class ConfiguracoesTest {
 	@Test
 	public void testIsPropertieExcecaoParamInvalido() {
 		Assert.assertFalse(conf.isPropertieExcecao(null));
+	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPreposicaoNull()
+	{
+		final String palavra = null;
+		Assert.assertFalse(conf.isPreposicao(palavra));
+	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPreposicaoVazio()
+	{
+		final String palavra = "";
+		Assert.assertFalse(conf.isPreposicao(palavra));
+	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPreposicaoFalse()
+	{
+		final String palavra = "Andŕe";
+		Assert.assertFalse(conf.isPreposicao(palavra));
+	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPreposicaoTRUE()
+	{
+		final String palavra = "em";
+		Assert.assertTrue(conf.isPreposicao(palavra));
+	}
+	
+	/**
+	 * Testa se é uma palavre execção.
+	 */
+	@Test
+	public void testIsPreposicaoCaracteresEspeciaisTRUE()
+	{
+		final String palavra = "de!";
+		Assert.assertTrue(conf.isPreposicao(palavra));
 	}
 
 }

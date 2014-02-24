@@ -1,6 +1,5 @@
 package com.andre.util;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -16,18 +15,14 @@ import com.andre.exceptions.CrashException;
  */
 public class EscritorArquivoTest {
 
-	final static String DIR_ARQUIVO = "/home/andre/Documentos/teste.txt";
+	private String diretorioTeste = TesteUtils.DIR_TESTES + "teste.txt";
 
 	/**
 	 * 
 	 */
 	@After
 	public void limparDiretorios() {
-		File file = new File(DIR_ARQUIVO);
-
-		if (file.exists()) {
-			file.delete();
-		}
+		TesteUtils.close("teste.txt");
 	}
 
 	/**
@@ -59,9 +54,9 @@ public class EscritorArquivoTest {
 	 */
 	@Test
 	public void testConstrutorOKNovoArquivo() throws IOException {
-		EscritorArquivo teste = new EscritorArquivo(DIR_ARQUIVO);
+		EscritorArquivo teste = new EscritorArquivo(diretorioTeste);
 		Assert.assertTrue(teste != null);
-		teste = new EscritorArquivo(DIR_ARQUIVO);
+		teste = new EscritorArquivo(diretorioTeste);
 		Assert.assertTrue(teste.getArquivo().exists());
 		teste.getArquivo().delete();
 		Assert.assertFalse(teste.getArquivo().exists());
@@ -69,10 +64,10 @@ public class EscritorArquivoTest {
 
 	@Test
 	public void escreverNovaLinhaOK() throws IOException {
-		EscritorArquivo teste = new EscritorArquivo(DIR_ARQUIVO);
+		EscritorArquivo teste = new EscritorArquivo(diretorioTeste);
 		teste.escreverNovaLinha("Urrgh");
 		teste.fecharRecursos();
-		LeitorArquivo leitor = new LeitorArquivo(DIR_ARQUIVO);
+		LeitorArquivo leitor = new LeitorArquivo(diretorioTeste);
 		Assert.assertTrue(leitor.getConteudoArquivo().equals("Urrgh\n"));
 	}
 

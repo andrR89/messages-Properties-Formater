@@ -58,17 +58,89 @@ public class Configuracoes {
 	public boolean isPalavraExcecao(String palavra) {
 		boolean retorno = false;
 
-		if (palavra == null || palavra.trim().equals("")) {
+		if (palavrasExcecoes.isEmpty() || palavra == null
+				|| palavra.trim().equals("")) {
 			return retorno;
 		}
 
+		String palavarFormatada = palavra;
+		palavarFormatada = retirarCaracteres(palavarFormatada);
+
 		for (String excecao : palavrasExcecoes) {
-			if (excecao.toLowerCase().equals(palavra.toLowerCase())) {
+			if (excecao.toLowerCase().equals(
+					palavarFormatada.trim().toLowerCase())) {
 				retorno = true;
 				break;
 			}
 		}
 		return retorno;
+	}
+
+	/**
+	 * Pega a Excecao a partir da propertie.
+	 * 
+	 * @param propertie
+	 * @return
+	 */
+	public PropertieExecao getExcecao(Propertie propertie) {
+
+		if (propertie == null) {
+			return null;
+		}
+
+		for (PropertieExecao excecao : propertiesExecoes) {
+			if (excecao.getNomePrefixo().equals(propertie.getPrefixo())) {
+				return excecao;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Verifica se a palavra é execção a regra.
+	 * 
+	 * @param palavra
+	 * @return
+	 */
+	public boolean isPreposicao(String palavra) {
+		boolean retorno = false;
+
+		if (palavra == null || palavra.trim().equals("")) {
+			return retorno;
+		}
+
+		String palavarFormatada = palavra;
+		palavarFormatada = retirarCaracteres(palavarFormatada);
+
+		for (Preposicoes preposicao : Preposicoes.values()) {
+			if (preposicao.getPalavra().toLowerCase()
+					.equals(palavarFormatada.trim().toLowerCase())) {
+				retorno = true;
+				break;
+			}
+		}
+		return retorno;
+	}
+
+	private String retirarCaracteres(String valor) {
+		String x = valor;
+		x = x.replace(".", "");
+		x = x.replace(",", "");
+		x = x.replace("-", "");
+		x = x.replace("_", "");
+		x = x.replace("*", "");
+		x = x.replace("!", "");
+		x = x.replace(";", "");
+		x = x.replace(":", "");
+		x = x.replace("/", "");
+		x = x.replace("(", "");
+		x = x.replace(")", "");
+		x = x.replace("[", "");
+		x = x.replace("]", "");
+		x = x.replace("{", "");
+		x = x.replace("}", "");
+
+		return x;
 	}
 
 	/**

@@ -1,28 +1,54 @@
 package com.andre.core;
 
-import java.util.regex.Pattern;
+import java.io.IOException;
 
-import org.junit.Assert;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.andre.rules.Configuracoes;
+import com.andre.rules.RegrasEnum;
+import com.andre.util.TesteUtils;
 
 public class RegrasMessagesTest {
 
-	@Test
-	public void testarProprert() {
-		String re = "([\\s-]*)(([\\w-\\.]*)[.-]?([\\s-]*=)([*\\d*\\D]*))+$";
-		//String re = "^[\\s-]*(([\\w-\\.]*)[.-]?[\\s-]*=([*\\d*\\D]*))+$";
-		String str = "po.sida_sopdiaop = asjald%$&923JFKjalj";
+	private static final String arquivoLido = TesteUtils.DIR_TESTES
+			+ TesteUtils.ARQ_PROPERTIES_TEST;
+	
+	private static final String arquivoEscrito = TesteUtils.DIR_TESTES
+			+ "nova.properties";
 
-		Pattern p = Pattern.compile(re);
-		Assert.assertTrue(p.matcher("   dsdsdjkl    = ljsajsda").matches());
-		Assert.assertTrue(p.matcher("ssdasd=sdad").matches());
-		Assert.assertFalse(p.matcher(",.__00sadjdajl = jkdjkasj").matches());
-		Assert.assertTrue(p.matcher(str).matches());
-		Assert.assertTrue(p.matcher("  s=x").matches());
-
-		p.split("=");
-		Assert.assertTrue(str.split("=").length == 2);
-
+	/**
+	 * Joga arquivo de teste no diretorio DUMP.
+	 * 
+	 * @throws IOException
+	 */
+	@BeforeClass
+	public static void init() throws IOException {
+		TesteUtils.init(TesteUtils.ARQ_PROPERTIES_TEST);
 	}
 
+	/**
+	 * Exclui o arquivo do diretorio de DUMP.
+	 */
+	@AfterClass
+	public static void close() {
+		TesteUtils.close(TesteUtils.ARQ_PROPERTIES_TEST);
+	}
+	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	@Test
+	public void testar() throws IOException
+	{
+		Configuracoes conf = new Configuracoes();
+		conf.setRegras(RegrasEnum.MAIUSCULA_ALL);
+		conf.setArquivoEntrada(arquivoLido);
+		conf.setArquivoSaida(arquivoEscrito);
+		RegrasMessages x = new RegrasMessages(conf);
+		x.executar();
+		x.gravar();
+	}
 }

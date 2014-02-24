@@ -3,12 +3,12 @@ package com.andre.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.andre.exceptions.CrashException;
 import com.andre.rules.Configuracoes;
 import com.andre.rules.Propertie;
+import com.andre.rules.PropertieExecao;
 import com.andre.util.EscritorArquivo;
 import com.andre.util.LeitorArquivo;
 
@@ -24,7 +24,7 @@ public class RegrasMessages {
 	private Configuracoes configuracoes;
 
 	/** Dados que serão escritos no arquivo. */
-	private List<Propertie> dados;
+	private List<String> dados;
 
 	/** Leito do arquivo. */
 	private LeitorArquivo leitor;
@@ -40,7 +40,7 @@ public class RegrasMessages {
 	 * @throws IOException .
 	 */
 	public RegrasMessages(final Configuracoes configuracoes) throws IOException {
-		this.dados = new ArrayList<Propertie>();
+		this.dados = new ArrayList<String>();
 		this.configuracoes = configuracoes;
 
 		this.leitor = new LeitorArquivo(this.configuracoes.getArquivoEntrada());
@@ -54,7 +54,7 @@ public class RegrasMessages {
 	public void executar() {
 		try {
 			while (this.leitor.getBuffer().ready()) {
-
+				processarLinha();
 			}
 		} catch (IOException e) {
 			throw new CrashException("Erro ao ler o arquivo.");
@@ -65,25 +65,38 @@ public class RegrasMessages {
 	 * Grava o processo.
 	 */
 	public void gravar() {
-		for (Propertie dado : dados) {
+		for (String dado : dados) {
 			escritor.escreverNovaLinha(dado.toString());
 		}
 		escritor.fecharRecursos();
 	}
 
 	/**
-	 * Verifica se é uma linha de properities.
+	 * Processa a linha.
 	 * 
-	 * @param linha
-	 * @return
+	 * @throws IOException
 	 */
-	private boolean isLinhaPropertie(final String linha) 
-	{
-		String re = "^[\\s-]*([0-9a-zA-Z-_\\.]+([\\h.-])?[\\s-]*=[*\\d*\\D]*)+$";
-		String str = "message = teste";
-		 
-		Pattern p = Pattern.compile(re);
-		Matcher m = p.matcher(str);
-		return false;
+	private void processarLinha() throws IOException {
+		final String linha = this.leitor.getBuffer().readLine();
+		if (Propertie.isLinhaPropertie(linha)) {
+			EditorProperties editor = new EditorProperties(configuracoes);
+
+			Propertie propertie = Propertie.getPropertie(linha);
+
+			if (configuracoes.isPropertieExcecao(propertie)) {
+				final PropertieExecao excecao = configuracoes
+						.getExcecao(propertie);
+				propertie = editor.executarAlteracoes(propertie,
+						excecao.getRegra());
+			} else {
+				propertie = editor.executarAlteracoes(propertie,
+						configuracoes.getRegras());
+			}
+
+			dados.add(propertie.toString());
+		} else {
+			// Não faz nada na linha pq não é uma properties.
+			dados.add(linha);
+		}
 	}
 }

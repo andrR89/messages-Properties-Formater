@@ -2,7 +2,7 @@ package com.andre.main;
 
 import java.io.IOException;
 
-import com.andre.util.LeitorArquivo;
+import javax.swing.JFileChooser;
 
 public class Execute {
 
@@ -13,7 +13,9 @@ public class Execute {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		LeitorArquivo l = new LeitorArquivo("Arquivos/Testes/server-links-uteis.txt");
-		System.out.println(l.getConteudoArquivo());
+		JFileChooser abrir = new JFileChooser();
+		int retorno = abrir.showOpenDialog(null);
+		if (retorno == JFileChooser.APPROVE_OPTION)
+			abrir.getSelectedFile().getAbsolutePath();
 	}
 }

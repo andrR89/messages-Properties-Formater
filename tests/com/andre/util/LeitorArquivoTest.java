@@ -1,11 +1,7 @@
 package com.andre.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -16,11 +12,6 @@ import com.andre.exceptions.CrashException;
 
 public class LeitorArquivoTest {
 
-	/** Diretorio Dump pra execução dos teste. */
-	final static String DIR_TESTES = "Arquivos/Testes/Dump/teste.txt";
-	/** Arquivo utilizado no teste. */
-	final static String ARQUIVO = "Arquivos/Testes/server-links-uteis.txt";
-
 	/**
 	 * Joga arquivo de teste no diretorio DUMP.
 	 * 
@@ -28,18 +19,7 @@ public class LeitorArquivoTest {
 	 */
 	@BeforeClass
 	public static void init() throws IOException {
-		File in = new File(ARQUIVO);
-		File out = new File(DIR_TESTES);
-		FileInputStream fileInputStream = new FileInputStream(in);
-		FileChannel sourceChannel = fileInputStream.getChannel();
-		FileOutputStream fileOutputStream = new FileOutputStream(out);
-		FileChannel destinationChannel = fileOutputStream.getChannel();
-		sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-
-		sourceChannel.close();
-		destinationChannel.close();
-		fileInputStream.close();
-		fileOutputStream.close();
+		TesteUtils.init(TesteUtils.ARQ_DEFAULT_TEST);
 	}
 
 	/**
@@ -47,11 +27,7 @@ public class LeitorArquivoTest {
 	 */
 	@AfterClass
 	public static void close() {
-		File out = new File(DIR_TESTES);
-
-		if (out.exists()) {
-			out.delete();
-		}
+		TesteUtils.close(TesteUtils.ARQ_DEFAULT_TEST);
 	}
 
 	/**
@@ -61,7 +37,8 @@ public class LeitorArquivoTest {
 	 */
 	@Test
 	public void testConstruorOK() throws FileNotFoundException {
-		LeitorArquivo leito = new LeitorArquivo(DIR_TESTES);
+		LeitorArquivo leito = new LeitorArquivo(TesteUtils.DIR_TESTES
+				+ TesteUtils.ARQ_DEFAULT_TEST);
 		Assert.assertTrue(leito.getArquivo() != null);
 	}
 
@@ -94,7 +71,8 @@ public class LeitorArquivoTest {
 	 */
 	@Test
 	public void testGetConteudoArquivo() throws FileNotFoundException {
-		LeitorArquivo leitor = new LeitorArquivo(DIR_TESTES);
+		LeitorArquivo leitor = new LeitorArquivo(TesteUtils.DIR_TESTES
+				+ TesteUtils.ARQ_DEFAULT_TEST);
 		leitor.fecharRecursos();
 		Assert.assertTrue(leitor.getConteudoArquivo() != null);
 	}
